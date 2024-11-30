@@ -55,6 +55,7 @@ public:
         delete[] devam_sayisi;
     }
 
+
     void readFromCSV(const string& fileName) {
         ifstream file(fileName);
 
@@ -245,6 +246,7 @@ int main() {
         cout<<"2.Kalan öğrencileri listeli"<<endl;
         cout<<"3.Geçen öğrencileri listele"<<endl;
         cout<<"4.Tüm/Kalan/Geçen öğrencileri dosyaya yazdır"<<endl;
+        cout<<"5.Öğrenci sayısını gör"<<endl;
         cout<<"0.Çıkış"<<endl;
         cout<<"---------------------------------"<<endl;
 
@@ -269,7 +271,9 @@ int main() {
         case 4:
             createFile(ogr);
             break;
-        
+        case 5:
+            cout << "Öğrenci sayısı: " << ogr.getStudentCount() << endl;
+            break;
         default:
             cout<<"Geçersiz seçim !!!"<<endl;
             break;
