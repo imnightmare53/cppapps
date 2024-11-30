@@ -1,184 +1,321 @@
 #include <iostream>
 #include <fstream>
-#include <sstream>
+#include <iomanip>
 #include <string>
 
 using namespace std;
 
 class Student {
-private:    
-    string* names;
-    string* studentNumbers;
-    float* midterms;
-    float* secondExams;
-    float* assignments;
-    float* finals;
-    int* attendance;
-    float* averages;
-    int studentCount;
+private:
+    string* isim;
+    string* ogr_no;
+    float* ilk_vize;
+    float* ikinci_vize;
+    float* odev;
+    float* final;
+    int* devam_sayisi;
+    float* ortalama;
+    int ogr_sayisi = 0;
 
 public:
-    // Varsayılan constructor (bellek ayırma için)
-    Student() : names(nullptr), studentNumbers(nullptr), midterms(nullptr),
-                secondExams(nullptr), assignments(nullptr), finals(nullptr),
-                attendance(nullptr), averages(nullptr), studentCount(0) {}
-
-    // Parametreli constructor
-    Student(int count) : studentCount(count) {
-        // Dinamik bellek ayırma
-        names = new string[studentCount];
-        studentNumbers = new string[studentCount];
-        midterms = new float[studentCount];
-        secondExams = new float[studentCount];
-        assignments = new float[studentCount];
-        finals = new float[studentCount];
-        averages = new float[studentCount];
-        attendance = new int[studentCount];
+    Student() {
+        isim = nullptr;
+        ogr_no = nullptr;
+        ilk_vize = nullptr;
+        ikinci_vize = nullptr;
+        odev = nullptr;
+        final = nullptr;
+        devam_sayisi = nullptr;
+        ortalama = nullptr;
+        ogr_sayisi = 0;
     }
-  
+
+    Student(const string& fileName) {
+        ogr_sayisi = counter(fileName);  // Öğrenci sayısını buluyo
+        isim = new string[ogr_sayisi];
+        ogr_no = new string[ogr_sayisi];
+        ilk_vize = new float[ogr_sayisi];
+        ikinci_vize = new float[ogr_sayisi];
+        odev = new float[ogr_sayisi];
+        final = new float[ogr_sayisi];
+        ortalama = new float[ogr_sayisi];
+        devam_sayisi = new int[ogr_sayisi];
+        
+        readFromCSV(fileName);  //Arr'leri dolduruyo
+    }
+
     ~Student() {
-        delete[] names;
-        delete[] studentNumbers;
-        delete[] midterms;
-        delete[] secondExams;
-        delete[] assignments;
-        delete[] finals;
-        delete[] averages;
-        delete[] attendance;
+        delete[] isim;
+        delete[] ogr_no;
+        delete[] ilk_vize;
+        delete[] ikinci_vize;
+        delete[] odev;
+        delete[] final;
+        delete[] ortalama;
+        delete[] devam_sayisi;
     }
 
-    // CSV dosyasından veri okuma
     void readFromCSV(const string& fileName) {
         ifstream file(fileName);
 
         if (!file.is_open()) {
-            cerr << "Dosya acilamadi: " << fileName << endl;
+            cerr << "Dosya acilamadi :( !) " << fileName << endl;
             return;
         }
 
         string line;
         int index = 0;
 
-        // İlk satırı (başlıklar) atla
-        getline(file, line);
+        getline(file, line);   //İlk satırı okumuyo (okuyo ama dikkate almıyo)
 
-        // Verileri satır satır oku
         while (getline(file, line)) {
-            // Öğrenci sayısını hesapla
-            studentCount++;
-
-            // Dinamik bellek yeniden ayarlama
-            resizeArrays(studentCount);
-
             stringstream ss(line);
             string token;
 
-            // Ad
-            getline(ss, token, ',');
-            names[index] = (token.empty() ? "0" : token);  // Eğer boşsa 0 ile doldur
+            getline(ss, token, ',');                                      //İlki isim string
+            isim[index] = (token.empty() ? "0" : token);
 
-            // Öğrenci Numarası
-            getline(ss, token, ',');
-            studentNumbers[index] = (token.empty() ? "0" : token);  // Eğer boşsa 0 ile doldur
+            getline(ss, token, ',');                                      //İkinci okul no string
+            ogr_no[index] = (token.empty() ? "0" : token);
 
-            // Ara Sınav
-            getline(ss, token, ',');
-            midterms[index] = (token.empty() ? 0.0f : stof(token));  // Eğer boşsa 0.0f ile doldur
+            getline(ss, token, ',');                                      //Üçüncü 1. ara sınav float
+            ilk_vize[index] = (token.empty() ? 0.0f : stof(token));
 
-            // 2. Sınav
-            getline(ss, token, ',');
-            secondExams[index] = (token.empty() ? 0.0f : stof(token));  // Eğer boşsa 0.0f ile doldur
+            getline(ss, token, ',');                                      //Dördüncü 2. ara sınav float  
+            ikinci_vize[index] = (token.empty() ? 0.0f : stof(token));
 
-            // Ödev
-            getline(ss, token, ',');
-            assignments[index] = (token.empty() ? 0.0f : stof(token));  // Eğer boşsa 0.0f ile doldur
+            getline(ss, token, ',');                                      //Beşinci ödev notu float
+            odev[index] = (token.empty() ? 0.0f : stof(token));
 
-            // Final
-            getline(ss, token, ',');
-            finals[index] = (token.empty() ? 0.0f : stof(token));  // Eğer boşsa 0.0f ile doldur
+            getline(ss, token, ',');                                      //Altıncı final float
+            final[index] = (token.empty() ? 0.0f : stof(token));
 
-            // Devam Sayısı
-            getline(ss, token, ',');
-            attendance[index] = (token.empty() ? 0 : stoi(token));  // Eğer boşsa 0 ile doldur
+            getline(ss, token, ',');                                      //Yedinci son devam sayısı int
+            devam_sayisi[index] = (token.empty() ? 0 : stoi(token));
 
-            ++index;
+            index++;
         }
 
         file.close();
-        cout << "Dosya basariyla okundu ve veriler yerlestirildi." << endl;
+        cout << "Dosya basariyla okundu ve ögrenci bilgileri yerlestirildi." << endl;
     }
 
-    // Ortalama hesaplama
     void Average() {
-        for (int i = 0; i < studentCount; i++) {
-            averages[i] = (midterms[i] * 0.20) +
-                         (secondExams[i] * 0.20) +
-                         (assignments[i] * 0.20) +
-                         (finals[i] * 0.40);
+        for (int i = 0; i < ogr_sayisi; i++){
+        ortalama[i] = (ilk_vize[i] * 0.20) + (ikinci_vize[i] * 0.20) + (odev[i] * 0.20) + (final[i] * 0.40);
         }
     }
 
-    // Öğrenci sayısını döndüren metod
     int getStudentCount() const {
-        return studentCount;
+        return ogr_sayisi;
+    }
+
+    void print() {                                   //İlk print fonksiyonu
+        for (int i = 0; i < ogr_sayisi; i++) {
+            cout << "Öğrenci: " << left << setw(15) << isim[i];
+            cout<< ", No: " << setw(6) << ogr_no[i];
+            cout<< ", 1. Vize: " << setw(6) << fixed << setprecision(1) << ilk_vize[i];
+            cout<< ", 2. Vize: " << setw(6) << fixed << setprecision(1) << ikinci_vize[i];
+            cout<< ", Ödev: " << setw(6) << fixed << setprecision(1) << odev[i];
+            cout<< ", Final: " << setw(6) << fixed << setprecision(1) << final[i];
+            cout<< ", Ortalama: " << setw(6) << fixed << setprecision(1) << ortalama[i];
+            cout<< ", Devam: " << setw(3) << devam_sayisi[i]<<endl<<endl;
+        }
+    }
+
+
+    void print(int durum) {                            //İkinci print fonksiyonu
+        if (durum == 0){
+            for (int i = 0; i < ogr_sayisi; i++) {
+                if (ortalama[i] > 50) continue;
+
+                cout << "Öğrenci: " << left << setw(15) << isim[i];
+                cout << ", No: " << setw(6) << ogr_no[i];
+                cout << ", 1. Vize: " << setw(6) << fixed << setprecision(1) << ilk_vize[i];
+                cout << ", 2. Vize: " << setw(6) << fixed << setprecision(1) << ikinci_vize[i];
+                cout << ", Ödev: " << setw(6) << fixed << setprecision(1) << odev[i];
+                cout << ", Final: " << setw(6) << fixed << setprecision(1) << final[i];
+                cout << ", Ortalama: " << setw(6) << fixed << setprecision(1) << ortalama[i];
+                cout << ", Devam: " << setw(3) << devam_sayisi[i] << endl << endl;
+            }
+        }
+        else if (durum == 1) {
+            for (int i = 0; i < ogr_sayisi; i++) {
+                if (ortalama[i] <= 50) continue;
+
+                cout << "Öğrenci: " << left << setw(15) << isim[i];
+                cout << ", No: " << setw(6) << ogr_no[i];
+                cout << ", 1. Vize: " << setw(6) << fixed << setprecision(1) << ilk_vize[i];
+                cout << ", 2. Vize: " << setw(6) << fixed << setprecision(1) << ikinci_vize[i];
+                cout << ", Ödev: " << setw(6) << fixed << setprecision(1) << odev[i];
+                cout << ", Final: " << setw(6) << fixed << setprecision(1) << final[i];
+                cout << ", Ortalama: " << setw(6) << fixed << setprecision(1) << ortalama[i];
+                cout << ", Devam: " << setw(3) << devam_sayisi[i] << endl << endl;
+            }
+        }
+    }
+
+    void print(string dosyaAdi, int durum) {
+        ofstream outFile(dosyaAdi);
+        if (outFile.is_open()) {
+            if (durum == -1) {
+                for (int i = 0; i < ogr_sayisi; i++) {
+                    outFile << "Öğrenci: " << left << setw(15) << isim[i];
+                    outFile << ", No: " << setw(6) << ogr_no[i];
+                    outFile << ", 1. Vize: " << setw(6) << fixed << setprecision(1) << ilk_vize[i];
+                    outFile << ", 2. Vize: " << setw(6) << fixed << setprecision(1) << ikinci_vize[i];
+                    outFile << ", Ödev: " << setw(6) << fixed << setprecision(1) << odev[i];
+                    outFile << ", Final: " << setw(6) << fixed << setprecision(1) << final[i];
+                    outFile << ", Ortalama: " << setw(6) << fixed << setprecision(1) << ortalama[i];
+                    outFile << ", Devam: " << setw(3) << devam_sayisi[i] << endl;
+                }
+            } 
+            else if (durum == 0) {
+                for (int i = 0; i < ogr_sayisi; i++) {
+                    if (ortalama[i] > 50) continue;
+
+                    outFile << "Öğrenci: " << left << setw(15) << isim[i];
+                    outFile << ", No: " << setw(6) << ogr_no[i];
+                    outFile << ", 1. Vize: " << setw(6) << fixed << setprecision(1) << ilk_vize[i];
+                    outFile << ", 2. Vize: " << setw(6) << fixed << setprecision(1) << ikinci_vize[i];
+                    outFile << ", Ödev: " << setw(6) << fixed << setprecision(1) << odev[i];
+                    outFile << ", Final: " << setw(6) << fixed << setprecision(1) << final[i];
+                    outFile << ", Ortalama: " << setw(6) << fixed << setprecision(1) << ortalama[i];
+                    outFile << ", Devam: " << setw(3) << devam_sayisi[i] << endl;
+                }
+            }
+            else if (durum == 1) {
+                for (int i = 0; i < ogr_sayisi; i++) {
+                    if (ortalama[i] <= 50) continue;
+
+                    outFile << "Öğrenci: " << left << setw(15) << isim[i];
+                    outFile << ", No: " << setw(6) << ogr_no[i];
+                    outFile << ", 1. Vize: " << setw(6) << fixed << setprecision(1) << ilk_vize[i];
+                    outFile << ", 2. Vize: " << setw(6) << fixed << setprecision(1) << ikinci_vize[i];
+                    outFile << ", Ödev: " << setw(6) << fixed << setprecision(1) << odev[i];
+                    outFile << ", Final: " << setw(6) << fixed << setprecision(1) << final[i];
+                    outFile << ", Ortalama: " << setw(6) << fixed << setprecision(1) << ortalama[i];
+                    outFile << ", Devam: " << setw(3) << devam_sayisi[i] << endl;
+                }
+            }
+
+            outFile.close();
+            cout << dosyaAdi << " dosyasına yazıldı." << endl;
+        }
     }
 
 private:
-    // Dinamik dizileri yeniden boyutlandırma
-    void resizeArrays(int newCount) {
-        names = resizeStringArray(names, newCount);
-        studentNumbers = resizeStringArray(studentNumbers, newCount);
-        midterms = resizeFloatArray(midterms, newCount);
-        secondExams = resizeFloatArray(secondExams, newCount);
-        assignments = resizeFloatArray(assignments, newCount);
-        finals = resizeFloatArray(finals, newCount);
-        attendance = resizeIntArray(attendance, newCount);
-        averages = resizeFloatArray(averages, newCount);
-    }
+    int counter(const string& fileName) {
+        ifstream file(fileName);
 
-    // String dizilerini yeniden boyutlandırma
-    string* resizeStringArray(string* arr, int newCount) {
-        string* newArr = new string[newCount];
-        for (int i = 0; i < newCount - 1; ++i) {  // Yeni boyut ile verileri kopyala
-            newArr[i] = arr[i];
+        if (!file.is_open()) {
+            cerr << "Dosya acilamadi :( !) " << fileName << endl;
+            return 0;
         }
-        delete[] arr;
-        return newArr;
-    }
 
-    // Float dizilerini yeniden boyutlandırma
-    float* resizeFloatArray(float* arr, int newCount) {
-        float* newArr = new float[newCount];
-        for (int i = 0; i < newCount - 1; ++i) {
-            newArr[i] = arr[i];
-        }
-        delete[] arr;
-        return newArr;
-    }
+        string line;
+        int count = 0;
 
-    // Int dizilerini yeniden boyutlandırma
-    int* resizeIntArray(int* arr, int newCount) {
-        int* newArr = new int[newCount];
-        for (int i = 0; i < newCount - 1; ++i) {
-            newArr[i] = arr[i];
+        getline(file, line);    //İlk satırı okumuyo (okuyo ama dikkate almıyo)
+
+        while (getline(file, line)) {
+            count++;
         }
-        delete[] arr;
-        return newArr;
+
+        file.close();
+        return count;
     }
 };
 
-int main(){
-    string fileName = "https://raw.githubusercontent.com/zyavuz610/data/refs/heads/master/ogrenci-not/%C3%B6%C4%9Frenci%20notlar%C4%B1%20-%20isimli.csv"; // .csv dosyasının ismi
-    Student ogr;
+void createFile(Student x);
 
-    // Verileri csv dosyasından oku
-    ogr.readFromCSV(fileName);
+int main() {
+    string fileName = "csv.txt";
+    Student ogr(fileName);
 
-    // Ortalamaları hesapla
-    ogr.Average();
+    ogr.Average();      //consturctor ile hesaplanamdığı için mainin hemen mainin içinde çağırıp ortalama hesapladık
 
-    // Öğrenci sayısını yazdır
     cout << "Öğrenci sayisi: " << ogr.getStudentCount() << endl;
 
+    bool a = true;
+    do{
+
+        cout<<"---------------------------------"<<endl;
+        cout<<"1.Öğrencileri listele"<<endl;
+        cout<<"2.Kalan öğrencileri listeli"<<endl;
+        cout<<"3.Geçen öğrencileri listele"<<endl;
+        cout<<"4.Tüm/Kalan/Geçen öğrencileri dosyaya yazdır"<<endl;
+        cout<<"0.Çıkış"<<endl;
+        cout<<"---------------------------------"<<endl;
+
+        int secim;
+        cout<<"Yapmak istediğinz işlemi girin: ";
+        cin>>secim;
+
+        switch (secim)
+        {
+        case 0:
+            a = false;
+            break;
+        case 1:
+            ogr.print();
+            break;
+        case 2:
+            ogr.print(0);
+            break;
+        case 3:
+            ogr.print(1);
+            break;
+        case 4:
+            createFile(ogr);
+            break;
+        
+        default:
+            cout<<"Geçersiz seçim !!!"<<endl;
+            break;
+        }
+
+    }while(a);
+
     return 0;    
+}
+
+
+
+void createFile(Student x){
+    string yeni_dosya;
+    cout<<"Lütfen oluşturulacak dosyanın ismini giriniz: ";
+    cin>>yeni_dosya;
+    cout<<"---------------------------------"<<endl;
+    cout<<"1.Öğrencileri yazdır"<<endl;
+    cout<<"2.Kalan öğrencileri yazdır"<<endl;
+    cout<<"3.Geçen öğrencileri yazdır"<<endl;
+    cout<<"0.İptal"<<endl;
+    cout<<"---------------------------------"<<endl;
+
+    int secim;
+    cout<<"Yapmak istediğinz işlemi girin: ";
+    cin>>secim;
+    switch (secim)
+    {
+    case 0:
+        cout<<"İşlem iptal edildi";
+        break;
+    case 1:
+        x.print(yeni_dosya,-1);
+        cout<<"Yazma işlemi başarılı"<<endl;
+        break;
+    case 2:
+        x.print(yeni_dosya,0);
+        cout<<"Yazma işlemi başarılı"<<endl;
+        break;
+    case 3:
+        x.print(yeni_dosya,1);
+        cout<<"Yazma işlemi başarılı"<<endl;
+        break;
+    
+    default:
+        cout<<"Geçersiz seçim !!!"<<endl;
+        break;
+    }
 }
