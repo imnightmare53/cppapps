@@ -16,6 +16,8 @@ private:
     int* devam_sayisi;
     float* ortalama;
     int ogr_sayisi = 0;
+    int gecen_ogr_sayisi = 0;
+    int kalan_ogr_sayisi = 0;
 
 public:
     Student() {
@@ -28,6 +30,8 @@ public:
         devam_sayisi = nullptr;
         ortalama = nullptr;
         ogr_sayisi = 0;
+        int gecen_ogr_sayisi = 0;
+        int kalan_ogr_sayisi = 0;
     }
 
     Student(const string& fileName) {
@@ -103,15 +107,33 @@ public:
 
     void Average() {
         for (int i = 0; i < ogr_sayisi; i++){
-        ortalama[i] = (ilk_vize[i] * 0.20) + (ikinci_vize[i] * 0.20) + (odev[i] * 0.20) + (final[i] * 0.40);
+            ortalama[i] = (ilk_vize[i] * 0.20) + (ikinci_vize[i] * 0.20) + (odev[i] * 0.20) + (final[i] * 0.40);
+            int ortt = ortalama[i];
+            if (ortt>=50) gecen_ogr_sayisi++;
+            else kalan_ogr_sayisi++;
         }
+    }
+
+    void SpeAverage(int ort_) const{
+        int sayi=0;
+        for (int i=0; i<ogr_sayisi; i++){
+            if(ortalama[i]>=ort_) sayi++;
+        }
+        cout<<ort_<<" ve üzeri ortalamaya sahip öğrenci sayisi: "<<sayi<<endl;
     }
 
     int getStudentCount() const {
         return ogr_sayisi;
     }
 
-    void print() {                                   //İlk print fonksiyonu
+    int getFailedStudentCount() const{
+        return kalan_ogr_sayisi;
+    }
+    int getPassedStudentCount() const {
+        return gecen_ogr_sayisi;
+    }
+
+    void print() const {                                   //İlk print fonksiyonu
         for (int i = 0; i < ogr_sayisi; i++) {
             cout << "Öğrenci: " << left << setw(15) << isim[i];
             cout<< ", No: " << setw(6) << ogr_no[i];
@@ -125,10 +147,10 @@ public:
     }
 
 
-    void print(int durum) {                            //İkinci print fonksiyonu
+    void print(int durum) const {                            //İkinci print fonksiyonu
         if (durum == 0){
             for (int i = 0; i < ogr_sayisi; i++) {
-                if (ortalama[i] > 50) continue;
+                if (ortalama[i] >= 50) continue;
 
                 cout << "Öğrenci: " << left << setw(15) << isim[i];
                 cout << ", No: " << setw(6) << ogr_no[i];
@@ -142,7 +164,7 @@ public:
         }
         else if (durum == 1) {
             for (int i = 0; i < ogr_sayisi; i++) {
-                if (ortalama[i] <= 50) continue;
+                if (ortalama[i] < 50) continue;
 
                 cout << "Öğrenci: " << left << setw(15) << isim[i];
                 cout << ", No: " << setw(6) << ogr_no[i];
@@ -156,7 +178,7 @@ public:
         }
     }
 
-    void print(string dosyaAdi, int durum) {
+    void print(string dosyaAdi, int durum) const {
         ofstream outFile(dosyaAdi);
         if (outFile.is_open()) {
             if (durum == -1) {
@@ -173,7 +195,7 @@ public:
             } 
             else if (durum == 0) {
                 for (int i = 0; i < ogr_sayisi; i++) {
-                    if (ortalama[i] > 50) continue;
+                    if (ortalama[i] >= 50) continue;
 
                     outFile << "Öğrenci: " << left << setw(15) << isim[i];
                     outFile << ", No: " << setw(6) << ogr_no[i];
@@ -187,7 +209,7 @@ public:
             }
             else if (durum == 1) {
                 for (int i = 0; i < ogr_sayisi; i++) {
-                    if (ortalama[i] <= 50) continue;
+                    if (ortalama[i] < 50) continue;
 
                     outFile << "Öğrenci: " << left << setw(15) << isim[i];
                     outFile << ", No: " << setw(6) << ogr_no[i];
@@ -206,7 +228,7 @@ public:
     }
 
 private:
-    int counter(const string& fileName) {
+    int counter(const string& fileName){
         ifstream file(fileName);
 
         if (!file.is_open()) {
@@ -228,7 +250,7 @@ private:
     }
 };
 
-void createFile(Student x);
+void createFile(const Student& x);
 
 int main() {
     string fileName = "csv.txt";
@@ -247,6 +269,9 @@ int main() {
         cout<<"3.Geçen öğrencileri listele"<<endl;
         cout<<"4.Tüm/Kalan/Geçen öğrencileri dosyaya yazdır"<<endl;
         cout<<"5.Öğrenci sayısını gör"<<endl;
+        cout<<"6.Kalan öğrenci sayısını gör"<<endl;
+        cout<<"7.Geçen öğrenci sayısını gör"<<endl;
+        cout<<"8.Belirli bir ortalama üstündeki öğrenci sayısını gör"<<endl;
         cout<<"0.Çıkış"<<endl;
         cout<<"---------------------------------"<<endl;
 
@@ -272,7 +297,19 @@ int main() {
             createFile(ogr);
             break;
         case 5:
-            cout << "Öğrenci sayısı: " << ogr.getStudentCount() << endl;
+            cout << "Öğrenci sayısı: " << ogr.getStudentCount()<<endl;
+            break;
+        case 6:
+            cout<<"Kalan öğrenci sayısı: "<<ogr.getFailedStudentCount()<<endl;
+            break;
+        case 7:
+            cout<<"Geçen öğrenci sayısı: "<<ogr.getPassedStudentCount()<<endl;
+            break;
+        case 8:
+            int belirli_ort;
+            cout<<"Hangi ortalama ve üstündeki öğrenci sayısını görmek istiyorsunuz ?: ";
+            cin>> belirli_ort;
+            ogr.SpeAverage(belirli_ort);
             break;
         default:
             cout<<"Geçersiz seçim !!!"<<endl;
@@ -286,7 +323,7 @@ int main() {
 
 
 
-void createFile(Student x){
+void createFile(const Student& x){
     string yeni_dosya;
     cout<<"Lütfen oluşturulacak dosyanın ismini giriniz: ";
     cin>>yeni_dosya;
