@@ -1,0 +1,103 @@
+20 400
+Lisa Miller 10105 Y 4
+Mathematics MTH345 4 A
+Physics PHY357 3 B
+ComputerSci CSC478 3 B
+History HIS205 3 A
+..........................
+John Doe 10001 N 3
+Mathematics MTH345 3 A
+Physics PHY357 4 B
+Chemistry CHM205 4 C
+..........................
+Jane Smith 10002 Y 2
+Biology BIO104 3 B
+History HIS205 3 D
+..........................
+Michael Brown 10003 N 4
+ComputerSci CSC478 3 A
+Mathematics MTH345 3 C
+English ENG103 2 B
+Physics PHY357 4 E
+..........................
+Emily Johnson 10004 Y 3
+Chemistry CHM205 3 B
+Mathematics MTH345 3 C
+English ENG103 2 A
+..........................
+Daniel Davis 10005 N 2
+History HIS205 4 B
+Physics PHY357 4 A
+..........................
+Sarah Wilson 10006 Y 3
+Mathematics MTH345 3 A
+ComputerSci CSC478 3 B
+Chemistry CHM205 4 C
+..........................
+Andrew Clark 10007 N 2
+Biology BIO104 3 E
+History HIS205 3 D
+..........................
+Sophia Martinez 10008 Y 3
+Physics PHY357 4 A
+Chemistry CHM205 4 B
+English ENG103 2 C
+..........................
+Joshua Garcia 10009 N 3
+Mathematics MTH345 3 C
+ComputerSci CSC478 3 B
+History HIS205 4 A
+..........................
+Ava Moore 10010 Y 2
+Biology BIO104 4 D
+Chemistry CHM205 4 A
+..........................
+Ethan Taylor 10011 Y 4
+English ENG103 2 A
+Mathematics MTH345 3 B
+ComputerSci CSC478 4 C
+History HIS205 3 A
+..........................
+Mia Anderson 10012 N 3
+Mathematics MTH345 3 C
+Physics PHY357 4 B
+Chemistry CHM205 3 D
+..........................
+William Harris 10013 Y 2
+Biology BIO104 3 C
+Mathematics MTH345 3 A
+..........................
+Isabella Martinez 10014 N 4
+ComputerSci CSC478 3 A
+English ENG103 2 B
+Physics PHY357 4 C
+History HIS205 4 B
+..........................
+James Lewis 10015 Y 3
+Chemistry CHM205 4 A
+Mathematics MTH345 3 B
+Physics PHY357 4 D
+..........................
+Olivia Walker 10016 N 2
+Biology BIO104 3 A
+History HIS205 3 C
+..........................
+Lucas Young 10017 Y 3
+ComputerSci CSC478 3 B
+English ENG103 2 A
+Mathematics MTH345 3 C
+..........................
+Amelia Allen 10018 Y 2
+Chemistry CHM205 3 A
+History HIS301 4 D
+..........................
+Benjamin Scott 10019 N 4
+Mathematics MTH345 3 B
+English ENG103 2 C
+ComputerSci CSC478 4 A
+Physics PHY357 4 B
+..........................
+Charlotte King 10020 Y 3
+Physics PHY357 4 A
+History HIS205 3 B
+Mathematics MTH345 3 C
