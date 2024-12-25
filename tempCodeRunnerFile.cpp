@@ -363,36 +363,38 @@ void StudentType::print(const string& studentID) const {
 }
 
 void readStudentDataFromFile(const string& filename, vector<StudentType>& students, int& tuitionPerCredit) {
-    ifstream inFile(filename.c_str());
+    ifstream inFile(filename);
 
-    if (!inFile) {
-        cerr << "Error: Could not open file " << filename << endl;
-        return;
-    }
+    int numStudents;
+    inFile >> numStudents >> tuitionPerCredit;
+    inFile.ignore();
 
-    inFile >> tuitionPerCredit; // İlk satırda harç bilgisi
-    string firstName, lastName, studentID;
-    int numberOfCourses;
-    bool isTuitionPaid;
+    for (int i = 0; i < numStudents; ++i) {
+        string firstName, lastName, studentID;
+        char tuitionPaidChar;
+        int numberOfCourses;
 
-    while (inFile >> firstName >> lastName >> studentID >> isTuitionPaid >> numberOfCourses) {
+        inFile >> firstName >> lastName >> studentID >> tuitionPaidChar >> numberOfCourses;
+        bool isTuitionPaid = (tuitionPaidChar == 'Y');
+
         StudentType student;
         student.setStudent(firstName, lastName, studentID, isTuitionPaid, numberOfCourses);
 
-        for (int i = 0; i < numberOfCourses; i++) {
+        for (int j = 0; j < numberOfCourses; ++j) {
             string courseName, courseNumber;
             int creditHours;
             char grade;
+
             inFile >> courseName >> courseNumber >> creditHours >> grade;
+
             Course course;
             course.setCourseInfo(courseName, courseNumber, creditHours, grade);
+
             student.addCourse(course);
         }
 
         students.push_back(student);
     }
-
-    inFile.close();
 }
 
 void printStudentsToFile(const vector<StudentType>& students, const string& filename) {

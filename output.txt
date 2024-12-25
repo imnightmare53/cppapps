@@ -1,0 +1,162 @@
+Student Name: Lisa Miller
+Student ID: 10105
+Number of courses enrolled: 4
+Course No  Course Name      Credits Grade
+HIS205    History        3       A
+MTH345    Mathematics    4       A
+PHY357    Physics        3       B
+CSC478    ComputerSci    3       B
+Toplam Kredi Sayisi: 13
+GPA: 3.53846
+--------------------------------------------
+Student Name: John Doe
+Student ID: 10001
+Number of courses enrolled: 3
+Notlar Ücret Ödenmediğinden Görüntülenemiyor.
+Ders harç ücreti:4400TL
+--------------------------------------------
+Student Name: Jane Smith
+Student ID: 10002
+Number of courses enrolled: 2
+Course No  Course Name      Credits Grade
+BIO104    Biology        3       B
+HIS205    History        3       D
+Toplam Kredi Sayisi: 6
+GPA: 2
+--------------------------------------------
+Student Name: Michael Brown
+Student ID: 10003
+Number of courses enrolled: 4
+Notlar Ücret Ödenmediğinden Görüntülenemiyor.
+Ders harç ücreti:4800TL
+--------------------------------------------
+Student Name: Emily Johnson
+Student ID: 10004
+Number of courses enrolled: 3
+Course No  Course Name      Credits Grade
+ENG103    English        2       A
+CHM205    Chemistry      3       B
+MTH345    Mathematics    3       C
+Toplam Kredi Sayisi: 8
+GPA: 2.875
+--------------------------------------------
+Student Name: Daniel Davis
+Student ID: 10005
+Number of courses enrolled: 2
+Notlar Ücret Ödenmediğinden Görüntülenemiyor.
+Ders harç ücreti:3200TL
+--------------------------------------------
+Student Name: Sarah Wilson
+Student ID: 10006
+Number of courses enrolled: 3
+Course No  Course Name      Credits Grade
+CHM205    Chemistry      4       C
+MTH345    Mathematics    3       A
+CSC478    ComputerSci    3       B
+Toplam Kredi Sayisi: 10
+GPA: 2.9
+--------------------------------------------
+Student Name: Andrew Clark
+Student ID: 10007
+Number of courses enrolled: 2
+Notlar Ücret Ödenmediğinden Görüntülenemiyor.
+Ders harç ücreti:2400TL
+--------------------------------------------
+Student Name: Sophia Martinez
+Student ID: 10008
+Number of courses enrolled: 3
+Course No  Course Name      Credits Grade
+ENG103    English        2       C
+CHM205    Chemistry      4       B
+PHY357    Physics        4       A
+Toplam Kredi Sayisi: 10
+GPA: 3.2
+--------------------------------------------
+Student Name: Joshua Garcia
+Student ID: 10009
+Number of courses enrolled: 3
+Notlar Ücret Ödenmediğinden Görüntülenemiyor.
+Ders harç ücreti:4000TL
+--------------------------------------------
+Student Name: Ava Moore
+Student ID: 10010
+Number of courses enrolled: 2
+Course No  Course Name      Credits Grade
+BIO104    Biology        4       D
+CHM205    Chemistry      4       A
+Toplam Kredi Sayisi: 8
+GPA: 2.5
+--------------------------------------------
+Student Name: Ethan Taylor
+Student ID: 10011
+Number of courses enrolled: 4
+Course No  Course Name      Credits Grade
+ENG103    English        2       A
+HIS205    History        3       A
+MTH345    Mathematics    3       B
+CSC478    ComputerSci    4       C
+Toplam Kredi Sayisi: 12
+GPA: 3.08333
+--------------------------------------------
+Student Name: Mia Anderson
+Student ID: 10012
+Number of courses enrolled: 3
+Notlar Ücret Ödenmediğinden Görüntülenemiyor.
+Ders harç ücreti:4000TL
+--------------------------------------------
+Student Name: William Harris
+Student ID: 10013
+Number of courses enrolled: 2
+Course No  Course Name      Credits Grade
+BIO104    Biology        3       C
+MTH345    Mathematics    3       A
+Toplam Kredi Sayisi: 6
+GPA: 3
+--------------------------------------------
+Student Name: Isabella Martinez
+Student ID: 10014
+Number of courses enrolled: 4
+Notlar Ücret Ödenmediğinden Görüntülenemiyor.
+Ders harç ücreti:5200TL
+--------------------------------------------
+Student Name: James Lewis
+Student ID: 10015
+Number of courses enrolled: 3
+Course No  Course Name      Credits Grade
+CHM205    Chemistry      4       A
+MTH345    Mathematics    3       B
+PHY357    Physics        4       D
+Toplam Kredi Sayisi: 11
+GPA: 2.63636
+--------------------------------------------
+Student Name: Olivia Walker
+Student ID: 10016
+Number of courses enrolled: 2
+Notlar Ücret Ödenmediğinden Görüntülenemiyor.
+Ders harç ücreti:2400TL
+--------------------------------------------
+Student Name: Lucas Young
+Student ID: 10017
+Number of courses enrolled: 3
+Course No  Course Name      Credits Grade
+ENG103    English        2       A
+MTH345    Mathematics    3       C
+CSC478    ComputerSci    3       B
+Toplam Kredi Sayisi: 8
+GPA: 2.875
+--------------------------------------------
+Student Name: Amelia Allen
+Student ID: 10018
+Number of courses enrolled: 2
+Course No  Course Name      Credits Grade
+CHM205    Chemistry      3       A
+HIS301    History        4       D
+Toplam Kredi Sayisi: 7
+GPA: 2.28571
+--------------------------------------------
+Student Name: Benjamin Scott
+Student ID: 10019
+Number of courses enrolled: 4
+Notlar Ücret Ödenmediğinden Görüntülenemiyor.
+Ders harç ücreti:5200TL
+--------------------------------------------
