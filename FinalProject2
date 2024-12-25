@@ -11,6 +11,8 @@
 #include <algorithm>
 using namespace std;
 
+int tuitionPerCredit = 0;
+
 class Course {
 private:
     string courseName;
@@ -60,15 +62,14 @@ public:
     double getGpa() const;
     double billingAmount(int tuitionPerCredit) const;
     void sortCourses();
-    void print(ofstream& outFile, int tuitionPerCredit) const;
-    void print(const string& studentID) const;
+    void print(ofstream& outFile) const;
+    void print(const string& studentID, const vector<StudentType>& students);
 };
 
 void loadStudentData(const string& filename, vector<StudentType>& students, int& tuitionPerCredit);
 
 int main() {
     vector<StudentType> students;
-    int tuitionPerCredit;
     loadStudentData("input.txt", students, tuitionPerCredit);
 
 
@@ -98,12 +99,14 @@ int main() {
         }
 
         for (const auto& student : students) {
-            student.print(outFile, tuitionPerCredit);
+            student.print(outFile);
         }
+
         cout << "Output.txt başarıyla oluşturuldu" << endl;
         outFile.close();
         break;
     }
+
     case 2: {
         ifstream inFile("input.txt");
         if (!inFile) {
@@ -137,20 +140,11 @@ int main() {
         cout << "Öğrenci ID'sini girin: ";
         cin >> studentID;
 
-        bool found = false;
-        for (const auto& student : students) {
-            if (student.getStudentID() == studentID) {
-                student.print(studentID);
-                found = true;
-                break;
-            }
-        }
-
-        if (!found) {
-            cout << "Öğrenci bulunamadı!" << endl;
-        }
+        StudentType tempStudent;
+        tempStudent.print(studentID, students);
         break;
     }
+
     default:
         cout << "Geçersiz seçim!" << endl;
         break;
@@ -296,7 +290,7 @@ void StudentType::sortCourses() { // kursları sıralıyo bubble sort
     }
 }
 
-void StudentType::print(ofstream& outFile, int tuitionPerCredit) const {
+void StudentType::print(ofstream& outFile) const {
     outFile << "Student Name: ";
     outFile << firstName << " " << lastName << endl;
     outFile << "Student ID: " << studentID << endl;
@@ -307,7 +301,10 @@ void StudentType::print(ofstream& outFile, int tuitionPerCredit) const {
 
         int totalCredits = 0;
         for (const auto& course : coursesEnrolled) {
-            course.printCourse();
+            outFile << left << setw(10) << course.getCourseNumber()
+                    << setw(15) << course.getCourseName()
+                    << setw(8) << course.getCreditHours()
+                    << course.getGrade() << endl;
             totalCredits += course.getCreditHours();
         }
 
@@ -319,6 +316,7 @@ void StudentType::print(ofstream& outFile, int tuitionPerCredit) const {
     }
     outFile << "--------------------------------------------" << endl;
 }
+
 
 void loadStudentData(const string& filename, vector<StudentType>& students, int& tuitionPerCredit) {
     ifstream inputFile(filename);
@@ -364,30 +362,39 @@ void loadStudentData(const string& filename, vector<StudentType>& students, int&
     inputFile.close();
 }
 
-void StudentType::print(const string& studentID) const {
-    if (this->studentID == studentID) {
-        cout << "Student Name: " << firstName << " " << lastName << endl;
-        cout << "Student ID: " << this->studentID << endl;
-        cout << "Number of courses enrolled: " << numberOfCourses << endl;
+void StudentType::print(const string& studentID, const vector<StudentType>& students) {
+    bool found = false;
 
-        if (isTuitionPaid) {
-            cout << left << setw(10) << "Course No" << setw(15) << "Course Name" << setw(8) << "Credits" << "Grade" << endl;
-            cout << "--------------------------------------------" << endl;
+    for (const auto& student : students) {
+        if (student.getStudentID() == studentID) {
+            cout << "Student Name: " << student.getFirstName() << " " << student.getLastName() << endl;
+            cout << "Student ID: " << student.getStudentID() << endl;
+            cout << "Number of courses enrolled: " << student.numberOfCourses << endl;
 
-            int totalCredits = 0;
-            for (const auto& course : coursesEnrolled) {
-                course.printCourse();
-                totalCredits += course.getCreditHours();
+            if (student.isTuitionPaid) {
+                cout << left << setw(10) << "Course No" << setw(15) << "Course Name" << setw(8) << "Credits" << "Grade" << endl;
+                cout << "--------------------------------------------" << endl;
+
+                int totalCredits = 0;
+                for (const auto& course : student.coursesEnrolled) {
+                    course.printCourse();
+                    totalCredits += course.getCreditHours();
+                }
+
+                cout << "--------------------------------------------" << endl;
+                cout << "Total Credit Hours: " << totalCredits << endl;
+                cout << "GPA: " << student.getGpa() << endl;
+            } else {
+                cout << "Grades cannot be displayed because tuition is unpaid." << endl;
+                cout << "Tuition due: " << student.billingAmount(tuitionPerCredit) << " TL" << endl;
             }
-
             cout << "--------------------------------------------" << endl;
-            cout << "Total Credit Hours: " << totalCredits << endl;
-            cout << "GPA: " << getGpa() << endl;
-        } else {
-            cout << "Grades cannot be displayed because tuition is unpaid." << endl;
+            found = true;
+            break;
         }
-        cout << "--------------------------------------------" << endl;
-    } else {
-        cout << "Student ID does not match." << endl;
+    }
+
+    if (!found) {
+        cout << "Student not found with ID: " << studentID << endl;
     }
 }
